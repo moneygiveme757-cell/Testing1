@@ -4,10 +4,17 @@
   cursor: crosshair;
   background: #fff;
 }
-
-.map-wrapper img {
-  width: 100%;
-  display: block;
+#marker {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  background: #dc3545;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+  pointer-events: none;
+  display: none;
+  z-index: 10;
 }
 
 .modal-body p {
