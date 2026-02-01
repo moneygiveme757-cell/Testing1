@@ -1,0 +1,15 @@
+.map-wrapper {
+  border-radius: 8px;
+  overflow: hidden;
+  cursor: crosshair;
+  background: #fff;
+}
+
+.map-wrapper img {
+  width: 100%;
+  display: block;
+}
+
+.modal-body p {
+  margin-bottom: 0.5rem;
+}
