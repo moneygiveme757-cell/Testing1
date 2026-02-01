@@ -1,8 +1,8 @@
 const map = document.getElementById("worldMap");
+const marker = document.getElementById("marker");
 const cityInput = document.getElementById("cityInput");
 const searchBtn = document.getElementById("searchBtn");
 const weatherContent = document.getElementById("weatherContent");
-
 const weatherModal = new bootstrap.Modal(
   document.getElementById("weatherModal")
 );
@@ -12,12 +12,10 @@ map.addEventListener("click", (e) => {
   const x = e.clientX - rect.left;
   const y = e.clientY - rect.top;
 
-  const width = rect.width;
-  const height = rect.height;
+  const longitude = (x / rect.width) * 360 - 180;
+  const latitude = 90 - (y / rect.height) * 180;
 
-  const longitude = (x / width) * 360 - 180;
-  const latitude = 90 - (y / height) * 180;
-
+  placeMarker(latitude, longitude);
   fetchWeatherByCoords(latitude, longitude);
 });
 searchBtn.addEventListener("click", () => {
@@ -27,10 +25,8 @@ searchBtn.addEventListener("click", () => {
 });
 async function fetchWeatherByCoords(lat, lon) {
   const url = `${WEATHER_API}?latitude=${lat}&longitude=${lon}&current_weather=true`;
-
   const res = await fetch(url);
   const data = await res.json();
-
   displayWeather(data, lat, lon);
 }
 async function fetchWeatherByCity(city) {
@@ -45,25 +41,36 @@ async function fetchWeatherByCity(city) {
     return;
   }
 
-  const { latitude, longitude, name, country } = geoData.results[0];
+  const { latitude, longitude } = geoData.results[0];
 
-  fetchWeatherByCoords(latitude, longitude, name, country);
+  placeMarker(latitude, longitude);
+  fetchWeatherByCoords(latitude, longitude);
+}
+function placeMarker(lat, lon) {
+  const rect = map.getBoundingClientRect();
+
+  const x = ((lon + 180) / 360) * rect.width;
+  const y = ((90 - lat) / 180) * rect.height;
+
+  marker.style.left = `${x}px`;
+  marker.style.top = `${y}px`;
+  marker.style.display = "block";
 }
 function displayWeather(data, lat, lon) {
   if (!data.current_weather) {
-    weatherContent.innerHTML = `<p>Weather data unavailable</p>`;
+    weatherContent.innerHTML = "<p>Weather unavailable</p>";
     weatherModal.show();
     return;
   }
 
-  const weather = data.current_weather;
+  const w = data.current_weather;
 
   weatherContent.innerHTML = `
-    <p><strong>📍 Coordinates:</strong> ${lat.toFixed(2)}, ${lon.toFixed(2)}</p>
-    <p><strong>🌡 Temperature:</strong> ${weather.temperature}°C</p>
-    <p><strong>💨 Wind Speed:</strong> ${weather.windspeed} km/h</p>
-    <p><strong>🧭 Wind Direction:</strong> ${weather.winddirection}°</p>
-    <p><strong>⏱ Time:</strong> ${weather.time}</p>
+    <p><strong>📍 Location:</strong> ${lat.toFixed(2)}, ${lon.toFixed(2)}</p>
+    <p><strong>🌡 Temperature:</strong> ${w.temperature}°C</p>
+    <p><strong>💨 Wind Speed:</strong> ${w.windspeed} km/h</p>
+    <p><strong>🧭 Wind Direction:</strong> ${w.winddirection}°</p>
+    <p><strong>⏱ Time:</strong> ${w.time}</p>
   `;
 
   weatherModal.show();

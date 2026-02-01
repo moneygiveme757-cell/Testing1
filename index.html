@@ -32,7 +32,9 @@
   </div>
   <div class="row justify-content-center">
     <div class="col-lg-10 text-center">
-      <div class="map-wrapper shadow-sm">
+      <div class="map-wrapper shadow-sm position-relative">
+        <div id="marker"></div>
+
         <img
           id="worldMap"
           src="https://upload.wikimedia.org/wikipedia/commons/8/80/World_map_-_low_resolution.svg"
@@ -47,26 +49,16 @@
   </div>
 
 </div>
-<div
-  class="modal fade"
-  id="weatherModal"
-  tabindex="-1"
-  aria-hidden="true"
->
+<div class="modal fade" id="weatherModal" tabindex="-1">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
 
       <div class="modal-header">
         <h5 class="modal-title">🌤 Weather Details</h5>
-        <button
-          type="button"
-          class="btn-close"
-          data-bs-dismiss="modal"
-        ></button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
       </div>
 
-      <div class="modal-body" id="weatherContent">
-      </div>
+      <div class="modal-body" id="weatherContent"></div>
 
     </div>
   </div>
