@@ -1,22 +1,25 @@
 .map-wrapper {
+  max-width: 1000px;
+  margin: auto;
   border-radius: 8px;
   overflow: hidden;
-  cursor: crosshair;
-  background: #fff;
 }
+
+.map-inner {
+  position: relative;
+}
+
+#worldMap {
+  width: 100%;
+  aspect-ratio: 2 / 1;
+}
+
 #marker {
   position: absolute;
   width: 14px;
   height: 14px;
-  background: #dc3545;
+  background: red;
   border-radius: 50%;
-  border: 2px solid #fff;
-  box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
-  pointer-events: none;
+  transform: translate(-50%, -50%);
   display: none;
-  z-index: 10;
-}
-
-.modal-body p {
-  margin-bottom: 0.5rem;
 }
